@@ -6,6 +6,7 @@ cat << 'EOF' >> ~/.bashrc
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 export LS_COLORS="di=1;34:fi=0:ln=1;36:pi=40;33:so=1;35:bd=1;33:cd=1;33:or=1;31:ex=1;32:*.sh=1;32"
+PS1="\[\e[1;32m\]\u@\h \[\e[1;34m\]\w\[\e[0m\] \$ "
 
 # Colored prompt
 alias vim='nvim'
