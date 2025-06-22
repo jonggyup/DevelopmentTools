@@ -5,6 +5,20 @@ echo "[*] Installing dependencies"
 sudo apt update
 sudo apt install -y ninja-build gettext cmake unzip curl build-essential git
 
+
+sudo apt install nodejs npm
+
+# Install nvm if not installed
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+source ~/.nvm/nvm.sh
+
+# Install and use a compatible Node.js version
+nvm install 18
+nvm use 18
+
+# Retry installation
+npm install -g tree-sitter-cli
+
 echo "[*] Cloning Neovim repository"
 git clone https://github.com/neovim/neovim.git
 cd neovim
