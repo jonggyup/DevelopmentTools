@@ -19,3 +19,4 @@ sudo make install
 echo "[*] Done. Verifying version..."
 nvim --version
 
+cp ./nvim ~/.config/nvim -r
