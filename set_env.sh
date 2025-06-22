@@ -25,6 +25,13 @@ EOF
 # Download 'desert' colorscheme if not present
 curl -fsSL -o ~/.vim/colors/desert.vim https://raw.githubusercontent.com/vim/colorschemes/master/colors/desert.vim
 
+### tmux config ###
+cat << 'EOF' > ~/.tmux.conf
+bind c new-window -c "#{pane_current_path}"
+bind '"' split-window -c "#{pane_current_path}"
+bind % split-window -h -c "#{pane_current_path}"
+EOF
+
 # Apply changes
 source ~/.bashrc
-
+tmux source-file ~/.tmux.conf
