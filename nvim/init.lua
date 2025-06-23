@@ -246,6 +246,22 @@ rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
+  {
+    'stevearc/aerial.nvim',
+    opts = {
+      open_automatic = false,
+      layout = { min_width = 30, default_direction = 'right' },
+      show_guides = true,
+    },
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    config = function(_, opts)
+      require('aerial').setup(opts)
+      vim.keymap.set('n', '<leader>o', function()
+        require('aerial').toggle { focus = true }
+      end)
+    end,
+  },
+
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
 
@@ -894,7 +910,6 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      --      vim.cmd.colorscheme 'tokyonight-night'
       vim.cmd.colorscheme 'desert'
     end,
   },
@@ -1016,41 +1031,12 @@ require('lazy').setup({
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 --
---
-require('nvim-treesitter.configs').setup {
-  ensure_installed = { 'bash', 'lua', 'python', 'json', 'yaml', 'vim', 'markdown' }, -- add more as needed
-  highlight = {
-    enable = true,
-    additional_vim_regex_highlighting = false,
-  },
-}
-
-vim.api.nvim_set_hl(0, 'Comment', { fg = '#777777', italic = true })
-
--- Restore cursor to the last known position when reopening a file
 vim.api.nvim_create_autocmd('BufReadPost', {
-  pattern = '*',
   callback = function()
-    local pos = vim.fn.line [['"]]
-    if pos > 0 and pos <= vim.fn.line '$' then
-      vim.cmd [[normal! g`"]]
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local lcount = vim.api.nvim_buf_line_count(0)
+    if mark[1] > 0 and mark[1] <= lcount then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
     end
   end,
 })
-
-vim.keymap.set('n', '.', function()
-  local ts_utils = require 'nvim-treesitter.ts_utils'
-  local node = ts_utils.get_node_at_cursor()
-
-  while node do
-    if node:type():match 'function' or node:type():match 'method' then
-      local name_node = node:field('name')[1]
-      if name_node then
-        local start_row, start_col = name_node:range()
-        vim.api.nvim_win_set_cursor(0, { start_row + 1, start_col + 1 })
-      end
-      return
-    end
-    node = node:parent()
-  end
-end, { desc = 'Jump to current function name' })
