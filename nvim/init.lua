@@ -1040,3 +1040,17 @@ vim.api.nvim_create_autocmd('BufReadPost', {
     end
   end,
 })
+
+-- Set global tab and indent
+vim.opt.tabstop = 4 -- Number of spaces a tab displays as
+vim.opt.shiftwidth = 4 -- Number of spaces to use for each step of (auto)indent
+vim.opt.softtabstop = 4 -- Number of spaces a <Tab> counts for while editing
+vim.opt.expandtab = true -- Use spaces instead of tabs
+vim.opt.smartindent = true -- Smart autoindenting when starting a new line
+vim.opt.autoindent = true -- Copy indent from current line when starting new line
+
+-- Show line numbers, relative line numbers, and current line highlight
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.cursorline = true
+=======
