@@ -21,7 +21,7 @@ npm install -g tree-sitter-cli
 
 echo "[*] Cloning Neovim repository"
 git clone https://github.com/neovim/neovim.git
-cd neovim
+pushd neovim
 
 echo "[*] Checking out latest stable release"
 git checkout stable  # use `nightly` for the latest features
@@ -32,6 +32,8 @@ sudo make install
 
 echo "[*] Done. Verifying version..."
 nvim --version
+
+popd
 
 mkdir ~/.config
 cp ./nvim ~/.config/nvim -r

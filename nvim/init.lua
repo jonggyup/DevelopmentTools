@@ -1053,4 +1053,3 @@ vim.opt.autoindent = true -- Copy indent from current line when starting new lin
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = true
-=======
