@@ -6,7 +6,7 @@ sudo apt update
 sudo apt install -y ninja-build gettext cmake unzip curl build-essential git
 
 
-sudo apt install nodejs npm
+sudo apt install -y nodejs npm
 
 # Install nvm if not installed
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
