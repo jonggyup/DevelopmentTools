@@ -39,3 +39,5 @@ tmux source-file ~/.tmux.conf
 git config --global credential.helper cache
 # default timeout is 15 minutes; set to 1 hour (3600 seconds)
 git config --global credential.helper 'cache --timeout=3600'
+git config --global core.editor "nvim"
+
