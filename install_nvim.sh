@@ -35,5 +35,5 @@ nvim --version
 
 popd
 
-mkdir ~/.config
+mkdir -p ~/.config
 cp ./nvim ~/.config/nvim -r
