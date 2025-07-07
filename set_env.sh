@@ -31,6 +31,7 @@ cat << 'EOF' > ~/.tmux.conf
 bind c new-window -c "#{pane_current_path}"
 bind '"' split-window -c "#{pane_current_path}"
 bind % split-window -h -c "#{pane_current_path}"
+set -s set-clipboard on
 EOF
 
 # Apply changes
