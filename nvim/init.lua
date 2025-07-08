@@ -1054,18 +1054,17 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = true
 
--- OSC52 yank-on-visual-y
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
-    if vim.v.event.operator == "y" and vim.v.event.regtype:sub(1,1) == 'v' then
-      local text = table.concat(vim.fn.getreg('"', 1, true), "\n")
-      local encoded = vim.fn.system('base64', text):gsub('\n', '')
-      local osc52 = '\x1b]52;c;' .. encoded .. '\x07'
-      -- Output OSC52 to terminal
-      io.stdout:write(osc52)
-      io.stdout:flush()
-    end
+    -- Get content from default yank register
+    local yanked = vim.v.event.regcontents
+    if not yanked or #yanked == 0 then return end
+    local text = table.concat(yanked, '\n')
+    -- Send OSC52 escape sequence
+    local osc52 = '\x1b]52;c;' .. vim.fn.system('base64', text):gsub('\n', '') .. '\x07'
+    io.stdout:write(osc52)
+    io.stdout:flush()
   end,
-  group = vim.api.nvim_create_augroup("Osc52Yank", {clear = true}),
+  group = vim.api.nvim_create_augroup("Osc52YankAll", {clear = true}),
 })
 
