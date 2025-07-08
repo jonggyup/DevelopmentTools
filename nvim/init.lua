@@ -1053,3 +1053,19 @@ vim.opt.autoindent = true -- Copy indent from current line when starting new lin
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = true
+
+-- OSC52 yank-on-visual-y
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function()
+    if vim.v.event.operator == "y" and vim.v.event.regtype:sub(1,1) == 'v' then
+      local text = table.concat(vim.fn.getreg('"', 1, true), "\n")
+      local encoded = vim.fn.system('base64', text):gsub('\n', '')
+      local osc52 = '\x1b]52;c;' .. encoded .. '\x07'
+      -- Output OSC52 to terminal
+      io.stdout:write(osc52)
+      io.stdout:flush()
+    end
+  end,
+  group = vim.api.nvim_create_augroup("Osc52Yank", {clear = true}),
+})
+
