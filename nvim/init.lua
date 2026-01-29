@@ -261,6 +261,19 @@ require('lazy').setup({
       end)
     end,
   },
+  {
+    'nvim-treesitter/nvim-treesitter',
+    branch = 'master', -- <- important
+    lazy = false, -- safer; avoids ordering issues
+    build = ':TSUpdate',
+    config = function()
+      require('nvim-treesitter.configs').setup {
+        highlight = { enable = true },
+        indent = { enable = true },
+        -- ensure_installed = { ... },
+      }
+    end,
+  },
 
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
@@ -1058,13 +1071,14 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
     -- Get content from default yank register
     local yanked = vim.v.event.regcontents
-    if not yanked or #yanked == 0 then return end
+    if not yanked or #yanked == 0 then
+      return
+    end
     local text = table.concat(yanked, '\n')
     -- Send OSC52 escape sequence
     local osc52 = '\x1b]52;c;' .. vim.fn.system('base64', text):gsub('\n', '') .. '\x07'
     io.stdout:write(osc52)
     io.stdout:flush()
   end,
-  group = vim.api.nvim_create_augroup("Osc52YankAll", {clear = true}),
+  group = vim.api.nvim_create_augroup('Osc52YankAll', { clear = true }),
 })
-
